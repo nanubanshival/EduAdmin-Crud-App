@@ -1,0 +1,82 @@
+@model TeacherCourseMapping
+
+@{
+    ViewData["Title"] = "Map Teacher to Course";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Teacher Course Mapping</h1>
+        <p class="edu-page-subtitle">Assign teachers to courses</p>
+    </div>
+    <a asp-action="Index" class="btn-edu-outline">Back to Teachers</a>
+</div>
+
+<div class="edu-card edu-mb-3" style="max-width:640px;">
+    <div class="edu-card-header">
+        <span class="edu-card-title">New Mapping</span>
+    </div>
+    <div class="edu-card-body">
+        <form asp-action="MapCourses" method="post">
+            <div class="edu-form-row">
+                <div>
+                    <label class="edu-label">Teacher</label>
+                    <select asp-for="TeacherId" class="edu-select"
+                            asp-items="@(new SelectList((List<Teachers>)ViewData["Teachers"], "TeacherId", "Name"))">
+                        <option value="">— Select Teacher —</option>
+                    </select>
+                    <span asp-validation-for="TeacherId" class="edu-field-error"></span>
+                </div>
+                <div>
+                    <label class="edu-label">Course</label>
+                    <select asp-for="CourseId" class="edu-select"
+                            asp-items="@(new SelectList((List<CourseManagement>)ViewData["Course"], "CourseId", "CourseName"))">
+                        <option value="">— Select Course —</option>
+                    </select>
+                    <span asp-validation-for="CourseId" class="edu-field-error"></span>
+                </div>
+            </div>
+
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-primary">
+                    <i class="bi bi-check-lg"></i> Save Mapping
+                </button>
+                <a asp-action="Index" class="btn-edu-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="edu-card">
+    <div class="edu-card-header">
+        <span class="edu-card-title">Mapped Teacher–Course List</span>
+    </div>
+    <div class="edu-table-wrap">
+        <table class="edu-table">
+            <thead>
+                <tr>
+                    <th>Teacher Name</th>
+                    <th>Course Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewData["MappedList"] != null)
+                {
+                    foreach (dynamic item in ViewData["MappedList"] as IEnumerable<dynamic>)
+                    {
+                        <tr>
+                            <td>@item.TeacherName</td>
+                            <td>@item.CourseName</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center edu-muted" style="padding:24px;">No mappings available.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

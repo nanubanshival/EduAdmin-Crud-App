@@ -1,0 +1,70 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction     = ViewContext.RouteData.Values["action"]?.ToString();
+    string NavClass(string controller) =>
+        string.Equals(controller, currentController, StringComparison.OrdinalIgnoreCase)
+            ? "edu-nav-link active"
+            : "edu-nav-link";
+    var userName = Context.Session.GetString("UserName");
+    var userRole = Context.Session.GetString("UserRole");
+    var isLoggedIn = Context.Session.GetString("UserId") != null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — EduAdmin</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+<body>
+
+    <nav class="edu-navbar">
+        <a class="edu-navbar-brand" asp-controller="Home" asp-action="Index">
+            <span class="edu-brand-icon"><i class="bi bi-mortarboard-fill"></i></span>
+            <span class="edu-brand-name">EduAdmin</span>
+        </a>
+
+        <div class="edu-navbar-links">
+            <a asp-controller="Home" asp-action="Index" class="@NavClass("Home")">Dashboard</a>
+            @if (isLoggedIn)
+            {
+                <a asp-controller="Students"         asp-action="Index" class="@NavClass("Students")">Students</a>
+                <a asp-controller="Teachers"         asp-action="Index" class="@NavClass("Teachers")">Teachers</a>
+                <a asp-controller="CourseManagement" asp-action="Index" class="@NavClass("CourseManagement")">Courses</a>
+                <a asp-controller="Attendance"       asp-action="BulkAttendance" class="@NavClass("Attendance")">Attendance</a>
+                <a asp-controller="Leave"            asp-action="LeaveTypes" class="@NavClass("Leave")">Leaves</a>
+            }
+        </div>
+
+        <div class="edu-navbar-right">
+            @if (isLoggedIn)
+            {
+                <div class="edu-user-chip" title="@userRole">
+                    <div class="edu-avatar">@((userName?.Length > 0 ? userName[0].ToString().ToUpper() : "U"))</div>
+                    <span class="edu-username">@userName</span>
+                </div>
+                <a asp-controller="Account" asp-action="Logout_Get" class="edu-logout-btn" title="Sign out">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login"    class="edu-auth-link">Sign In</a>
+                <a asp-controller="Account" asp-action="Register" class="edu-auth-link accent">Register</a>
+            }
+        </div>
+    </nav>
+
+    <main class="edu-main">
+        <div class="edu-container">
+            @RenderBody()
+        </div>
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

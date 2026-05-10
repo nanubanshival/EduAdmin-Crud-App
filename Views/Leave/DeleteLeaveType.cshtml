@@ -1,0 +1,53 @@
+@model CrudProject.Models.LeaveTypeMaster
+
+@{
+    ViewData["Title"] = "Delete Leave Type";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Delete Leave Type</h1>
+        <p class="edu-page-subtitle">Confirm removal</p>
+    </div>
+</div>
+
+<div class="edu-card" style="max-width:520px;">
+    <div class="edu-card-body">
+        <div class="edu-delete-warning">
+            <strong>Warning.</strong> Deleting this leave type cannot be undone.
+        </div>
+
+        <p style="margin-bottom:18px;">Are you sure you want to delete <strong>@Model.LeaveTypeName</strong>?</p>
+
+        <div class="edu-details-grid edu-mb-3" style="border:1px solid var(--gray-100); border-radius:var(--radius-md); overflow:hidden;">
+            <div class="edu-detail-label">Leave Type</div>
+            <div class="edu-detail-value">@Model.LeaveTypeName</div>
+
+            <div class="edu-detail-label">Max Leaves / Year</div>
+            <div class="edu-detail-value">@Model.MaxLeavesPerYear</div>
+
+            <div class="edu-detail-label">Active</div>
+            <div class="edu-detail-value">
+                @if (Model.IsActive)
+                {
+                    <span class="badge-edu success">Yes</span>
+                }
+                else
+                {
+                    <span class="badge-edu danger">No</span>
+                }
+            </div>
+        </div>
+
+        <form asp-controller="Leave" asp-action="DeleteLeaveTypeConfirmed" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="LeaveTypeId" type="hidden" />
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-danger">
+                    <i class="bi bi-trash"></i> Confirm Delete
+                </button>
+                <a asp-controller="Leave" asp-action="LeaveTypes" class="btn-edu-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

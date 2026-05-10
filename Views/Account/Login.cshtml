@@ -1,0 +1,43 @@
+@using CrudProject.ViewModel;
+@model LoginViewModel;
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<h2 class="edu-auth-title">Sign in to your account</h2>
+
+<form asp-action="Login" method="post">
+    <div asp-validation-summary="ModelOnly" class="edu-validation-summary"></div>
+
+    <div class="edu-form-group">
+        <label asp-for="Email" class="edu-label">Email Address</label>
+        <input asp-for="Email" class="edu-input" type="email" placeholder="you@example.com" />
+        <span asp-validation-for="Email" class="edu-field-error"></span>
+    </div>
+
+    <div class="edu-form-group">
+        <label asp-for="Password" class="edu-label">Password</label>
+        <input asp-for="Password" class="edu-input" type="password" placeholder="••••••••" />
+        <span asp-validation-for="Password" class="edu-field-error"></span>
+    </div>
+
+    <div class="edu-auth-link-row">
+        <span></span>
+        <a asp-controller="Account" asp-action="VerifyEmail">Forgot password?</a>
+    </div>
+
+    <button type="submit" class="btn-edu-primary edu-w-full">Sign In</button>
+
+    <p class="edu-auth-footer">
+        Don't have an account?
+        <a asp-controller="Account" asp-action="Register">Create one</a>
+    </p>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

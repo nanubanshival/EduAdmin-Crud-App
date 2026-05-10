@@ -1,0 +1,141 @@
+@model IEnumerable<CrudProject.Models.LeaveApplications>
+
+@{
+    ViewData["Title"] = "Leave Applications";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Leave Applications</h1>
+        <p class="edu-page-subtitle">Apply and review leave requests</p>
+    </div>
+    <div class="edu-flex edu-gap-2">
+        <a asp-controller="Leave" asp-action="LeaveTypes"    class="btn-edu-outline">Leave Types</a>
+        <a asp-controller="Leave" asp-action="LeaveBalances" class="btn-edu-outline">Balances</a>
+    </div>
+</div>
+
+<div class="edu-card edu-mb-3">
+    <div class="edu-card-header">
+        <span class="edu-card-title">Apply for Leave</span>
+    </div>
+    <div class="edu-card-body">
+        <form asp-action="LeaveApplications" method="post">
+            <div class="edu-form-row">
+                <div>
+                    <label class="edu-label">Teacher</label>
+                    <select name="TeacherId" class="edu-select">
+                        <option value="">— Select Teacher —</option>
+                        @if (ViewBag.Teachers != null)
+                        {
+                            foreach (var t in ViewBag.Teachers)
+                            {
+                                <option value="@t.TeacherId">@t.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="edu-label">Leave Type</label>
+                    <select name="LeaveTypeId" class="edu-select" required>
+                        <option value="">— Select Leave Type —</option>
+                        @foreach (var type in ViewBag.LeaveTypes)
+                        {
+                            <option value="@type.LeaveTypeId">@type.LeaveTypeName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="edu-form-row">
+                <div>
+                    <label class="edu-label">From Date</label>
+                    <input type="date" name="FromDate" id="fromDate" class="edu-input" required />
+                </div>
+                <div>
+                    <label class="edu-label">To Date</label>
+                    <input type="date" name="ToDate" id="toDate" class="edu-input" required />
+                </div>
+                <div>
+                    <label class="edu-label">Total Days</label>
+                    <input type="number" name="TotalDays" id="totalDays" class="edu-input" readonly />
+                </div>
+            </div>
+
+            <div class="edu-form-group">
+                <label class="edu-label">Reason</label>
+                <textarea name="Reason" class="edu-textarea" placeholder="Brief reason for the leave" required></textarea>
+            </div>
+
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-primary">
+                    <i class="bi bi-send"></i> Submit Application
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="edu-card">
+    <div class="edu-card-header">
+        <span class="edu-card-title">Leave Application List</span>
+    </div>
+    <div class="edu-table-wrap">
+        <table class="edu-table">
+            <thead>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Type</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Days</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.TeacherId</td>
+                        <td>@item.LeaveTypeId</td>
+                        <td>@item.FromDate</td>
+                        <td>@item.ToDate</td>
+                        <td>@item.TotalDays</td>
+                        <td>
+                            @if (item.Status == "Approved")
+                            {
+                                <span class="badge-edu success">Approved</span>
+                            }
+                            else if (item.Status == "Rejected")
+                            {
+                                <span class="badge-edu danger">Rejected</span>
+                            }
+                            else
+                            {
+                                <span class="badge-edu warning">Pending</span>
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="6" class="text-center edu-muted" style="padding:24px;">No leave applications yet.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById("toDate").addEventListener("change", function () {
+        var fromEl = document.getElementById("fromDate");
+        var toEl   = document.getElementById("toDate");
+        if (!fromEl.value || !toEl.value) return;
+        var from = new Date(fromEl.value);
+        var to   = new Date(toEl.value);
+        if (to >= from) {
+            var diff = (to - from) / (1000 * 60 * 60 * 24) + 1;
+            document.getElementById("totalDays").value = diff;
+        }
+    });
+</script>

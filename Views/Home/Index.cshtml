@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    var isLoggedIn = Context.Session.GetString("UserId") != null;
+    var userName   = Context.Session.GetString("UserName");
+    var userRole   = Context.Session.GetString("UserRole");
+}
+
+@if (!isLoggedIn)
+{
+    <div class="edu-hero-card">
+        <h1>Welcome to EduAdmin</h1>
+        <p>A unified school management platform — manage students, courses, teachers, attendance, and leave from one place.</p>
+        <div class="edu-flex edu-gap-2">
+            <a asp-controller="Account" asp-action="Login"    class="btn-edu-accent">Sign In</a>
+            <a asp-controller="Account" asp-action="Register" class="btn-edu-outline" style="background:rgba(255,255,255,0.10); color:#fff; border-color:rgba(255,255,255,0.30);">Create Account</a>
+        </div>
+    </div>
+
+    <div class="edu-quick-grid">
+        <div class="edu-quick-card">
+            <div class="edu-quick-icon"><i class="bi bi-people-fill"></i></div>
+            <div class="edu-quick-title">Students</div>
+            <div class="edu-quick-sub">Enrollment, courses, fees</div>
+        </div>
+        <div class="edu-quick-card">
+            <div class="edu-quick-icon"><i class="bi bi-person-workspace"></i></div>
+            <div class="edu-quick-title">Teachers</div>
+            <div class="edu-quick-sub">Faculty, assignments, salary</div>
+        </div>
+        <div class="edu-quick-card">
+            <div class="edu-quick-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+            <div class="edu-quick-title">Courses</div>
+            <div class="edu-quick-sub">Catalog &amp; semesters</div>
+        </div>
+        <div class="edu-quick-card">
+            <div class="edu-quick-icon"><i class="bi bi-calendar-check"></i></div>
+            <div class="edu-quick-title">Attendance &amp; Leave</div>
+            <div class="edu-quick-sub">Daily attendance, leave workflow</div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="edu-page-header">
+        <div>
+            <h1 class="edu-page-title">Dashboard</h1>
+            <p class="edu-page-subtitle">Welcome back, @userName — here's today's overview</p>
+        </div>
+        @if (!string.IsNullOrEmpty(userRole))
+        {
+            <span class="badge-edu @userRole.ToLower()">@userRole</span>
+        }
+    </div>
+
+    <div class="edu-stats-grid">
+        <div class="edu-stat-card">
+            <div class="edu-stat-number">@(ViewBag.StudentCount ?? "—")</div>
+            <div class="edu-stat-label">Total Students</div>
+        </div>
+        <div class="edu-stat-card">
+            <div class="edu-stat-number">@(ViewBag.TeacherCount ?? "—")</div>
+            <div class="edu-stat-label">Teachers</div>
+        </div>
+        <div class="edu-stat-card success">
+            <div class="edu-stat-number">@(ViewBag.AttendanceRate != null ? $"{ViewBag.AttendanceRate}%" : "—")</div>
+            <div class="edu-stat-label">Attendance Today</div>
+        </div>
+        <div class="edu-stat-card accent">
+            <div class="edu-stat-number">@(ViewBag.PendingLeaves ?? "—")</div>
+            <div class="edu-stat-label">Pending Leaves</div>
+        </div>
+    </div>
+
+    <div class="edu-card edu-mb-3">
+        <div class="edu-card-header">
+            <span class="edu-card-title">Quick actions</span>
+        </div>
+        <div class="edu-card-body">
+            <div class="edu-quick-grid" style="margin-bottom:0;">
+                <a asp-controller="Students" asp-action="Index" class="edu-quick-card">
+                    <div class="edu-quick-icon"><i class="bi bi-people-fill"></i></div>
+                    <div class="edu-quick-title">Manage Students</div>
+                    <div class="edu-quick-sub">View, add and edit students</div>
+                </a>
+                <a asp-controller="Teachers" asp-action="Index" class="edu-quick-card">
+                    <div class="edu-quick-icon"><i class="bi bi-person-workspace"></i></div>
+                    <div class="edu-quick-title">Teachers</div>
+                    <div class="edu-quick-sub">Faculty directory</div>
+                </a>
+                <a asp-controller="CourseManagement" asp-action="Index" class="edu-quick-card">
+                    <div class="edu-quick-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+                    <div class="edu-quick-title">Courses</div>
+                    <div class="edu-quick-sub">Catalog &amp; fees</div>
+                </a>
+                <a asp-controller="Attendance" asp-action="BulkAttendance" class="edu-quick-card">
+                    <div class="edu-quick-icon"><i class="bi bi-calendar-check"></i></div>
+                    <div class="edu-quick-title">Mark Attendance</div>
+                    <div class="edu-quick-sub">Today's bulk entry</div>
+                </a>
+                <a asp-controller="Leave" asp-action="LeaveApplications" class="edu-quick-card">
+                    <div class="edu-quick-icon"><i class="bi bi-envelope-paper"></i></div>
+                    <div class="edu-quick-title">Leave Applications</div>
+                    <div class="edu-quick-sub">Apply &amp; review</div>
+                </a>
+                <a asp-controller="Account" asp-action="VerifyEmail" class="edu-quick-card">
+                    <div class="edu-quick-icon"><i class="bi bi-shield-lock"></i></div>
+                    <div class="edu-quick-title">Change Password</div>
+                    <div class="edu-quick-sub">Update credentials</div>
+                </a>
+            </div>
+        </div>
+    </div>
+}

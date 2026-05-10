@@ -1,0 +1,31 @@
+@model CourseManagement
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Course Details</h1>
+        <p class="edu-page-subtitle">@Model.CourseName</p>
+    </div>
+    <div class="edu-flex edu-gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.CourseId" class="btn-edu-primary">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+        <a asp-action="Index" class="btn-edu-outline">Back to List</a>
+    </div>
+</div>
+
+<div class="edu-card" style="max-width:560px;">
+    <div class="edu-details-grid">
+        <div class="edu-detail-label">Course Name</div>
+        <div class="edu-detail-value">@Model.CourseName</div>
+
+        <div class="edu-detail-label">Semester</div>
+        <div class="edu-detail-value">@Model.Semester</div>
+
+        <div class="edu-detail-label">Fees</div>
+        <div class="edu-detail-value">₹ @Model.Fees</div>
+    </div>
+</div>

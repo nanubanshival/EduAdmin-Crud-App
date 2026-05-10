@@ -1,0 +1,97 @@
+@model IEnumerable<CrudProject.Models.Teachers>
+
+@{
+    ViewData["Title"] = "Teachers";
+    var role   = Context.Session.GetString("UserRole");
+    var userId = Context.Session.GetString("UserId");
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="edu-alert danger">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Teachers</h1>
+        <p class="edu-page-subtitle">Faculty directory</p>
+    </div>
+    @if (role == "Admin")
+    {
+        <div class="edu-flex edu-gap-2">
+            <a asp-controller="Attendance" asp-action="BulkAttendance" class="btn-edu-outline">
+                <i class="bi bi-calendar-check"></i> Attendance
+            </a>
+            <a asp-controller="Teachers" asp-action="MapCourses" class="btn-edu-outline">
+                <i class="bi bi-diagram-3"></i> Map Course
+            </a>
+            <a asp-action="Create" class="btn-edu-primary">
+                <i class="bi bi-plus-lg"></i> Add Teacher
+            </a>
+        </div>
+    }
+</div>
+
+<div class="edu-card">
+    <div class="edu-card-header">
+        <span class="edu-card-title">All Teachers</span>
+        <span class="edu-muted" style="font-size:12px;">@Model.Count() total</span>
+    </div>
+    <div class="edu-table-wrap">
+        <table class="edu-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Salary</th>
+                    <th>Joining Date</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="font-weight:600;">@item.Name</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>₹ @item.Salary</td>
+                        <td>@item.JoiningDate.ToString("dd MMM yyyy")</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge-edu success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge-edu danger">Inactive</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="edu-actions">
+                                <a asp-action="Details" asp-route-id="@item.TeacherId" class="btn-edu-outline btn-edu-sm">View</a>
+                                @if (role == "Admin" || (role == "Teacher" && userId == item.TeacherId.ToString()))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.TeacherId" class="btn-edu-ghost btn-edu-sm">Edit</a>
+                                }
+                                @if (role == "Admin")
+                                {
+                                    <a asp-action="Delete" asp-route-id="@item.TeacherId" class="btn-edu-danger btn-edu-sm">Delete</a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="7" class="text-center edu-muted" style="padding:24px;">No teachers yet.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

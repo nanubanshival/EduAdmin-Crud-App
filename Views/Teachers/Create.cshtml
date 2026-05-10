@@ -1,0 +1,70 @@
+@model Teachers
+
+@{
+    ViewData["Title"] = "Add Teacher";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Add New Teacher</h1>
+        <p class="edu-page-subtitle">Enter faculty details</p>
+    </div>
+</div>
+
+<div class="edu-card" style="max-width:640px;">
+    <div class="edu-card-header">
+        <span class="edu-card-title">Teacher Details</span>
+    </div>
+    <div class="edu-card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="edu-validation-summary"></div>
+
+            <div class="edu-form-group">
+                <label asp-for="Name" class="edu-label">Teacher's Name</label>
+                <input asp-for="Name" class="edu-input" type="text" placeholder="e.g. Anita Verma" />
+                <span asp-validation-for="Name" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-row">
+                <div>
+                    <label asp-for="JoiningDate" class="edu-label">Joining Date</label>
+                    <input asp-for="JoiningDate" class="edu-input" type="date" />
+                    <span asp-validation-for="JoiningDate" class="edu-field-error"></span>
+                </div>
+                <div>
+                    <label asp-for="Salary" class="edu-label">Salary</label>
+                    <input asp-for="Salary" class="edu-input" />
+                    <span asp-validation-for="Salary" class="edu-field-error"></span>
+                </div>
+            </div>
+
+            <div class="edu-form-row">
+                <div>
+                    <label asp-for="Phone" class="edu-label">Phone</label>
+                    <input asp-for="Phone" class="edu-input" placeholder="+91 9876543210" />
+                    <span asp-validation-for="Phone" class="edu-field-error"></span>
+                </div>
+                <div>
+                    <label asp-for="Email" class="edu-label">Email</label>
+                    <input asp-for="Email" class="edu-input" type="email" placeholder="teacher@example.com" />
+                    <span asp-validation-for="Email" class="edu-field-error"></span>
+                </div>
+            </div>
+
+            <div class="edu-form-group">
+                <label class="edu-checkbox">
+                    <input asp-for="IsActive" type="checkbox" />
+                    <span>Teacher is active</span>
+                </label>
+                <span asp-validation-for="IsActive" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-primary">
+                    <i class="bi bi-check-lg"></i> Save Teacher
+                </button>
+                <a asp-action="Index" class="btn-edu-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

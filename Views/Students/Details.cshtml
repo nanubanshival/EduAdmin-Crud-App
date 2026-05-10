@@ -1,0 +1,46 @@
+@model CrudProject.Models.Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Student Details</h1>
+        <p class="edu-page-subtitle">@Model.Name</p>
+    </div>
+    <div class="edu-flex edu-gap-2">
+        <a asp-action="Edit" asp-route-id="@Model?.StudentId" class="btn-edu-primary">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+        <a asp-action="Index" class="btn-edu-outline">Back to List</a>
+    </div>
+</div>
+
+<div class="edu-card" style="max-width:760px;">
+    <div class="edu-details-grid">
+        <div class="edu-detail-label">@Html.DisplayNameFor(m => m.Name)</div>
+        <div class="edu-detail-value">@Model.Name</div>
+
+        <div class="edu-detail-label">@Html.DisplayNameFor(m => m.Email)</div>
+        <div class="edu-detail-value">@Model.Email</div>
+
+        <div class="edu-detail-label">@Html.DisplayNameFor(m => m.Semester)</div>
+        <div class="edu-detail-value">@Model.Semester</div>
+
+        <div class="edu-detail-label">@Html.DisplayNameFor(m => m.Course)</div>
+        <div class="edu-detail-value">@Model.Course</div>
+
+        <div class="edu-detail-label">@Html.DisplayNameFor(m => m.Fees)</div>
+        <div class="edu-detail-value">₹ @Model.Fees</div>
+
+        <div class="edu-detail-label">@Html.DisplayNameFor(m => m.EnrollmentDate)</div>
+        <div class="edu-detail-value">@Model.EnrollmentDate.ToString("dd MMM yyyy")</div>
+
+        <div class="edu-detail-label">@Html.DisplayNameFor(m => m.Phone)</div>
+        <div class="edu-detail-value">@Model.Phone</div>
+
+        <div class="edu-detail-label">@Html.DisplayNameFor(m => m.Address)</div>
+        <div class="edu-detail-value">@Model.Address</div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+@{
+    ViewData["Title"] = "Bulk Attendance";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Bulk Attendance</h1>
+        <p class="edu-page-subtitle">Mark teacher attendance for the day</p>
+    </div>
+    <a asp-controller="Teachers" asp-action="Index" class="btn-edu-outline">Back to Teachers</a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="edu-alert success">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="edu-alert danger">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+<div class="edu-card">
+    <div class="edu-card-header">
+        <span class="edu-card-title">Mark Attendance</span>
+    </div>
+    <div class="edu-card-body">
+        <form asp-action="SaveBulkAttendance" method="post">
+
+            <div class="edu-form-group" style="max-width:240px;">
+                <label class="edu-label">Attendance Date</label>
+                <input type="date"
+                       name="AttendanceDate"
+                       class="edu-input"
+                       value="@ViewBag.TodayDate.ToString("yyyy-MM-dd")"
+                       max="@DateTime.Now.ToString("yyyy-MM-dd")"
+                       required />
+            </div>
+
+            <div class="edu-table-wrap">
+                <table class="edu-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Teacher</th>
+                            <th>Status</th>
+                            <th>Half Day</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < ViewBag.Teachers.Count; i++)
+                        {
+                            var t = ViewBag.Teachers[i];
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td style="font-weight:600;">
+                                    @t.Name
+                                    <input type="hidden" name="TeacherIds" value="@t.TeacherId" />
+                                </td>
+                                <td>
+                                    <div class="attendance-toggle">
+                                        <input type="radio"
+                                               name="Action_@t.TeacherId"
+                                               id="present_@t.TeacherId"
+                                               value="true"
+                                               checked
+                                               onclick="setPresent(@t.TeacherId)" />
+                                        <label class="present" for="present_@t.TeacherId">Present</label>
+
+                                        <input type="radio"
+                                               name="Action_@t.TeacherId"
+                                               id="absent_@t.TeacherId"
+                                               value="false"
+                                               onclick="setAbsent(@t.TeacherId)" />
+                                        <label class="absent" for="absent_@t.TeacherId">Absent</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label class="halfday-chip" id="halflabel_@t.TeacherId">
+                                        <input type="checkbox"
+                                               id="half_@t.TeacherId"
+                                               name="HalfDay"
+                                               value="@t.TeacherId"
+                                               onclick="toggleHalfDay(@t.TeacherId)" />
+                                        <span>Half Day</span>
+                                    </label>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-primary">
+                    <i class="bi bi-save"></i> Save Attendance
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function refreshHalfChip(id) {
+        var cb    = document.getElementById("half_" + id);
+        var label = document.getElementById("halflabel_" + id);
+        if (!cb || !label) return;
+        if (cb.checked) label.classList.add("checked");
+        else label.classList.remove("checked");
+    }
+
+    function setAbsent(id) {
+        var half = document.getElementById("half_" + id);
+        half.checked  = false;
+        half.disabled = true;
+        refreshHalfChip(id);
+    }
+
+    function setPresent(id) {
+        var half = document.getElementById("half_" + id);
+        half.disabled = false;
+        refreshHalfChip(id);
+    }
+
+    function toggleHalfDay(id) {
+        var absent = document.getElementById("absent_" + id);
+        var half   = document.getElementById("half_" + id);
+        if (absent.checked) {
+            half.checked  = false;
+            half.disabled = true;
+        }
+        refreshHalfChip(id);
+    }
+</script>

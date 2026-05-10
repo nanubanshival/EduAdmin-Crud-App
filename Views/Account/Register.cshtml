@@ -1,0 +1,69 @@
+@using CrudProject.ViewModel;
+@model RegisterViewModel;
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<h2 class="edu-auth-title">Create a new account</h2>
+
+<form asp-action="Register" method="post">
+    <div asp-validation-summary="ModelOnly" class="edu-validation-summary"></div>
+
+    <div class="edu-form-group">
+        <label asp-for="UserName" class="edu-label">User Name</label>
+        <input asp-for="UserName" class="edu-input" placeholder="e.g. riya.sharma" />
+        <span asp-validation-for="UserName" class="edu-field-error"></span>
+    </div>
+
+    <div class="edu-form-group">
+        <label asp-for="Email" class="edu-label">Email Address</label>
+        <input asp-for="Email" class="edu-input" type="email" placeholder="you@example.com" />
+        <span asp-validation-for="Email" class="edu-field-error"></span>
+    </div>
+
+    <div class="edu-form-group">
+        <label asp-for="Password" class="edu-label">Password</label>
+        <input asp-for="Password" class="edu-input" type="password" placeholder="At least 8 characters" />
+        <span asp-validation-for="Password" class="edu-field-error"></span>
+    </div>
+
+    <div class="edu-form-group">
+        <label asp-for="ConfirmPassword" class="edu-label">Confirm Password</label>
+        <input asp-for="ConfirmPassword" class="edu-input" type="password" placeholder="Re-type password" />
+        <span asp-validation-for="ConfirmPassword" class="edu-field-error"></span>
+    </div>
+
+    <div class="edu-form-group">
+        <label asp-for="UserRole" class="edu-label">Role</label>
+        <select asp-for="UserRole" class="edu-select">
+            <option value="">— Select Role —</option>
+            <option>Admin</option>
+            <option>Teacher</option>
+            <option>Student</option>
+        </select>
+        <span asp-validation-for="UserRole" class="edu-field-error"></span>
+    </div>
+
+    <div class="edu-form-group">
+        <label class="edu-checkbox">
+            <input asp-for="IsActive" type="checkbox" />
+            <span>Account is active</span>
+        </label>
+        <span asp-validation-for="IsActive" class="edu-field-error"></span>
+    </div>
+
+    <button type="submit" class="btn-edu-primary edu-w-full">Create Account</button>
+
+    <p class="edu-auth-footer">
+        Already have an account?
+        <a asp-controller="Account" asp-action="Login">Sign in</a>
+    </p>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

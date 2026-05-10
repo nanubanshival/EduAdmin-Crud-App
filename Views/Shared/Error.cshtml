@@ -1,0 +1,29 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title" style="color:var(--danger-text);">An error occurred</h1>
+        <p class="edu-page-subtitle">Something went wrong while processing your request.</p>
+    </div>
+</div>
+
+<div class="edu-card" style="max-width:720px;">
+    <div class="edu-card-body">
+        @if (Model.ShowRequestId)
+        {
+            <p>
+                <strong>Request ID:</strong>
+                <code style="background:var(--gray-100); padding:2px 6px; border-radius:4px;">@Model.RequestId</code>
+            </p>
+        }
+
+        <h3 style="margin-top:18px;">Development Mode</h3>
+        <p>
+            Switching to the <strong>Development</strong> environment displays more detailed error information.
+            This shouldn't be enabled for deployed applications, as it may reveal sensitive details.
+        </p>
+    </div>
+</div>

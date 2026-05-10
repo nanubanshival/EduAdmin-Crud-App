@@ -1,0 +1,78 @@
+@model CrudProject.Models.Teachers
+@using CrudProject.Models
+
+@{
+    ViewData["Title"] = "Edit Teacher";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Edit Teacher</h1>
+        <p class="edu-page-subtitle">Update faculty details</p>
+    </div>
+    <a asp-action="Index" class="btn-edu-outline">Back to List</a>
+</div>
+
+<div class="edu-card" style="max-width:640px;">
+    <div class="edu-card-header">
+        <span class="edu-card-title">Teacher Details</span>
+    </div>
+    <div class="edu-card-body">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="edu-validation-summary"></div>
+            <input type="hidden" asp-for="TeacherId" />
+
+            <div class="edu-form-group">
+                <label asp-for="Name" class="edu-label">Teacher's Name</label>
+                <input asp-for="Name" class="edu-input" />
+                <span asp-validation-for="Name" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-row">
+                <div>
+                    <label asp-for="JoiningDate" class="edu-label">Joining Date</label>
+                    <input asp-for="JoiningDate" type="date" class="edu-input" />
+                    <span asp-validation-for="JoiningDate" class="edu-field-error"></span>
+                </div>
+                <div>
+                    <label asp-for="Salary" class="edu-label">Salary</label>
+                    <input asp-for="Salary" class="edu-input" />
+                    <span asp-validation-for="Salary" class="edu-field-error"></span>
+                </div>
+            </div>
+
+            <div class="edu-form-row">
+                <div>
+                    <label asp-for="Phone" class="edu-label">Phone</label>
+                    <input asp-for="Phone" class="edu-input" type="number" />
+                    <span asp-validation-for="Phone" class="edu-field-error"></span>
+                </div>
+                <div>
+                    <label asp-for="Email" class="edu-label">Email</label>
+                    <input asp-for="Email" class="edu-input" type="email" />
+                    <span asp-validation-for="Email" class="edu-field-error"></span>
+                </div>
+            </div>
+
+            <div class="edu-form-group">
+                <label class="edu-checkbox">
+                    <input asp-for="IsActive" type="checkbox" />
+                    <span>Teacher is active</span>
+                </label>
+            </div>
+
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-primary">
+                    <i class="bi bi-check-lg"></i> Save Changes
+                </button>
+                <a asp-action="Index" class="btn-edu-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

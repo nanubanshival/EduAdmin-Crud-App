@@ -1,0 +1,61 @@
+@model CrudProject.Models.Teachers
+
+@{
+    ViewData["Title"] = "Delete Teacher";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Delete Teacher</h1>
+        <p class="edu-page-subtitle">Confirm removal</p>
+    </div>
+</div>
+
+<div class="edu-card" style="max-width:560px;">
+    <div class="edu-card-body">
+        <div class="edu-delete-warning">
+            <strong>Warning.</strong> You are about to permanently delete this teacher record. This action cannot be undone.
+        </div>
+
+        <p style="margin-bottom:18px;">Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+
+        <div class="edu-details-grid edu-mb-3" style="border:1px solid var(--gray-100); border-radius:var(--radius-md); overflow:hidden;">
+            <div class="edu-detail-label">Name</div>
+            <div class="edu-detail-value">@Model.Name</div>
+
+            <div class="edu-detail-label">Email</div>
+            <div class="edu-detail-value">@Model.Email</div>
+
+            <div class="edu-detail-label">Phone</div>
+            <div class="edu-detail-value">@Model.Phone</div>
+
+            <div class="edu-detail-label">Salary</div>
+            <div class="edu-detail-value">₹ @Model.Salary</div>
+
+            <div class="edu-detail-label">Joining Date</div>
+            <div class="edu-detail-value">@Model.JoiningDate.ToString("dd MMM yyyy")</div>
+
+            <div class="edu-detail-label">Status</div>
+            <div class="edu-detail-value">
+                @if (Model.IsActive)
+                {
+                    <span class="badge-edu success">Active</span>
+                }
+                else
+                {
+                    <span class="badge-edu danger">Inactive</span>
+                }
+            </div>
+        </div>
+
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="TeacherId" />
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-danger">
+                    <i class="bi bi-trash"></i> Yes, Delete
+                </button>
+                <a asp-action="Index" class="btn-edu-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

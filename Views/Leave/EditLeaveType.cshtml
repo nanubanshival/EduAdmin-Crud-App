@@ -1,0 +1,56 @@
+@model CrudProject.Models.LeaveTypeMaster
+
+@{
+    ViewData["Title"] = "Edit Leave Type";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Edit Leave Type</h1>
+        <p class="edu-page-subtitle">Update leave category</p>
+    </div>
+    <a asp-controller="Leave" asp-action="LeaveTypes" class="btn-edu-outline">Back to List</a>
+</div>
+
+<div class="edu-card" style="max-width:520px;">
+    <div class="edu-card-header">
+        <span class="edu-card-title">Leave Type Details</span>
+    </div>
+    <div class="edu-card-body">
+        <form asp-controller="Leave" asp-action="EditLeaveType" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="LeaveTypeId" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="edu-validation-summary"></div>
+
+            <div class="edu-form-group">
+                <label asp-for="LeaveTypeName" class="edu-label">Leave Type Name</label>
+                <input asp-for="LeaveTypeName" class="edu-input" />
+                <span asp-validation-for="LeaveTypeName" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-group">
+                <label asp-for="MaxLeavesPerYear" class="edu-label">Max Leaves Per Year</label>
+                <input asp-for="MaxLeavesPerYear" class="edu-input" type="number" />
+                <span asp-validation-for="MaxLeavesPerYear" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-group">
+                <label class="edu-checkbox">
+                    <input asp-for="IsActive" type="checkbox" />
+                    <span>Is Active</span>
+                </label>
+            </div>
+
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-primary">
+                    <i class="bi bi-check-lg"></i> Save Changes
+                </button>
+                <a asp-controller="Leave" asp-action="LeaveTypes" class="btn-edu-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

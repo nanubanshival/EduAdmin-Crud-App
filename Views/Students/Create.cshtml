@@ -1,0 +1,146 @@
+@model CrudProject.Models.Student
+@using CrudProject.Models
+
+@{
+    ViewData["Title"] = "Create Student";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Add New Student</h1>
+        <p class="edu-page-subtitle">Enter student details below</p>
+    </div>
+</div>
+
+<div class="edu-card" style="max-width:720px;">
+    <div class="edu-card-header">
+        <span class="edu-card-title">Student Details</span>
+    </div>
+    <div class="edu-card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="edu-validation-summary"></div>
+
+            <div class="edu-form-group">
+                <label asp-for="Name" class="edu-label">Full Name</label>
+                <input asp-for="Name" class="edu-input" placeholder="e.g. Riya Sharma" />
+                <span asp-validation-for="Name" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-group">
+                <label asp-for="Email" class="edu-label">Email</label>
+                <input asp-for="Email" class="edu-input" type="email" placeholder="student@example.com" />
+                <span asp-validation-for="Email" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-group">
+                <label asp-for="Semester" class="edu-label">Semester</label>
+                <select asp-for="Semester" class="edu-select">
+                    <option value="">— Select Semester —</option>
+                    <option>1st Semester</option>
+                    <option>2nd Semester</option>
+                    <option>3rd Semester</option>
+                    <option>4th Semester</option>
+                    <option>5th Semester</option>
+                    <option>6th Semester</option>
+                </select>
+                <span asp-validation-for="Semester" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-group">
+                <label class="edu-label">Course</label>
+                <select asp-for="CourseId" class="edu-select"
+                        asp-items="@(new SelectList((List<CourseManagement>)ViewData["Course"], "CourseId", "CourseName"))">
+                    <option value="">— Select Course —</option>
+                </select>
+                <span asp-validation-for="CourseId" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-row">
+                <div>
+                    <label asp-for="Fees" class="edu-label">Fees</label>
+                    <input asp-for="Fees" class="edu-input" readonly />
+                </div>
+                <div>
+                    <label class="edu-label">Course Teacher</label>
+                    <input type="text" id="TeacherName" class="edu-input" readonly />
+                </div>
+            </div>
+
+            <div class="edu-form-group">
+                <label asp-for="EnrollmentDate" class="edu-label">Enrollment Date</label>
+                <input asp-for="EnrollmentDate" class="edu-input" type="date" />
+                <span asp-validation-for="EnrollmentDate" class="edu-field-error"></span>
+            </div>
+
+            <div class="edu-form-row">
+                <div>
+                    <label asp-for="Phone" class="edu-label">Phone</label>
+                    <input asp-for="Phone" class="edu-input" placeholder="+91 9876543210" />
+                    <span asp-validation-for="Phone" class="edu-field-error"></span>
+                </div>
+                <div>
+                    <label asp-for="Address" class="edu-label">Address</label>
+                    <input asp-for="Address" class="edu-input" placeholder="City, State" />
+                    <span asp-validation-for="Address" class="edu-field-error"></span>
+                </div>
+            </div>
+
+            <div class="edu-form-actions">
+                <button type="submit" class="btn-edu-primary">
+                    <i class="bi bi-check-lg"></i> Save Student
+                </button>
+                <a asp-action="Index" class="btn-edu-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $("#Semester").change(function () {
+                var semester = $(this).val();
+                $("#CourseId").empty().append('<option value="">— Select Course —</option>');
+                $("#Fees").val("");
+                $("#TeacherName").val("");
+
+                if (semester !== "") {
+                    $.ajax({
+                        url: '/Students/GetCoursesBySemester',
+                        type: 'GET',
+                        data: { semester: semester },
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+                                $("#CourseId").append(`<option value="${item.courseId}">${item.courseName}</option>`);
+                            });
+                        }
+                    });
+                }
+            });
+
+            $("#CourseId").change(function () {
+                var courseId = $(this).val();
+                $("#Fees").val("");
+                $("#TeacherName").val("");
+
+                if (courseId !== "") {
+                    $.ajax({
+                        url: '/Students/GetCourseDetails',
+                        type: 'GET',
+                        data: { courseId: courseId },
+                        success: function (data) {
+                            if (data !== null) {
+                                $("#Fees").val(data.fees);
+                                $("#TeacherName").val(data.teachers.join(", "));
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

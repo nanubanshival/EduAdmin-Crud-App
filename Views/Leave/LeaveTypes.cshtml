@@ -1,0 +1,66 @@
+@model IEnumerable<CrudProject.Models.LeaveTypeMaster>
+
+@{
+    ViewData["Title"] = "Leave Types";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Leave Types</h1>
+        <p class="edu-page-subtitle">Manage leave categories</p>
+    </div>
+    <div class="edu-flex edu-gap-2">
+        <a asp-controller="Leave" asp-action="LeaveApplications" class="btn-edu-outline">Applications</a>
+        <a asp-controller="Leave" asp-action="LeaveBalances"     class="btn-edu-outline">Balances</a>
+        <a asp-controller="Leave" asp-action="CreateLeaveType"   class="btn-edu-primary">
+            <i class="bi bi-plus-lg"></i> New Leave Type
+        </a>
+    </div>
+</div>
+
+<div class="edu-card">
+    <div class="edu-card-header">
+        <span class="edu-card-title">All Leave Types</span>
+    </div>
+    <div class="edu-table-wrap">
+        <table class="edu-table">
+            <thead>
+                <tr>
+                    <th>Leave Type</th>
+                    <th>Max Leaves / Year</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="font-weight:600;">@item.LeaveTypeName</td>
+                        <td>@item.MaxLeavesPerYear</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge-edu success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge-edu danger">Inactive</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="edu-actions">
+                                <a asp-controller="Leave" asp-action="EditLeaveType"   asp-route-id="@item.LeaveTypeId" class="btn-edu-ghost btn-edu-sm">Edit</a>
+                                <a asp-controller="Leave" asp-action="DeleteLeaveType" asp-route-id="@item.LeaveTypeId" class="btn-edu-danger btn-edu-sm">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="4" class="text-center edu-muted" style="padding:24px;">No leave types defined.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

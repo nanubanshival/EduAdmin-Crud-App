@@ -1,0 +1,68 @@
+@model List<LeaveApplications>;
+
+@{
+    ViewData["Title"] = "Leave Applications";
+}
+
+<div class="edu-page-header">
+    <div>
+        <h1 class="edu-page-title">Leave Applications</h1>
+        <p class="edu-page-subtitle">All submitted applications</p>
+    </div>
+    <a asp-controller="Leave" asp-action="LeaveApplications" class="btn-edu-primary">
+        <i class="bi bi-plus-lg"></i> New Application
+    </a>
+</div>
+
+<div class="edu-card">
+    <div class="edu-card-header">
+        <span class="edu-card-title">All Applications</span>
+    </div>
+    <div class="edu-table-wrap">
+        <table class="edu-table">
+            <thead>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Type</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Days</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.TeacherId</td>
+                            <td>@item.LeaveTypeId</td>
+                            <td>@item.FromDate</td>
+                            <td>@item.ToDate</td>
+                            <td>@item.TotalDays</td>
+                            <td>
+                                @if (item.Status == "Approved")
+                                {
+                                    <span class="badge-edu success">Approved</span>
+                                }
+                                else if (item.Status == "Rejected")
+                                {
+                                    <span class="badge-edu danger">Rejected</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-edu warning">Pending</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="6" class="text-center edu-muted" style="padding:24px;">No leave applications yet.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

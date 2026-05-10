@@ -1,0 +1,31 @@
+@using CrudProject.ViewModel;
+@model VerifyEmailViewModel;
+
+@{
+    ViewData["Title"] = "Verify Email";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<h2 class="edu-auth-title">Verify your email</h2>
+
+<form asp-action="VerifyEmail" method="post">
+    <div asp-validation-summary="ModelOnly" class="edu-validation-summary"></div>
+
+    <div class="edu-form-group">
+        <label asp-for="Email" class="edu-label">Email Address</label>
+        <input asp-for="Email" class="edu-input" type="email" placeholder="you@example.com" />
+        <span asp-validation-for="Email" class="edu-field-error"></span>
+    </div>
+
+    <button type="submit" class="btn-edu-primary edu-w-full">Verify</button>
+
+    <p class="edu-auth-footer">
+        <a asp-controller="Home" asp-action="Index">Back to home</a>
+    </p>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
