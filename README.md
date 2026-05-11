@@ -151,7 +151,14 @@ App will start at `https://localhost:5001` (or the port shown in the console).
 
 ## Screenshots
 
-> Add screenshots of the dashboard, students list, login page, and bulk attendance here.
+<img width="1918" height="885" alt="e1" src="https://github.com/user-attachments/assets/dbe20c3f-81f7-4784-a6d6-c954bca489a1" />
+<img width="1917" height="875" alt="e2" src="https://github.com/user-attachments/assets/d7d1823e-3cb8-4ced-bab0-7fb75ab17c19" />
+<img width="1901" height="882" alt="e3" src="https://github.com/user-attachments/assets/5a325d9d-35c8-4917-a87e-453a65475a77" />
+<img width="1920" height="882" alt="e4" src="https://github.com/user-attachments/assets/6386177d-96bc-46d6-bcc3-c7f08e271da9" />
+<img width="1900" height="881" alt="e5" src="https://github.com/user-attachments/assets/2f8d2301-b324-4ed0-83bd-0b7d2cf49dd8" />
+<img width="1905" height="885" alt="e6" src="https://github.com/user-attachments/assets/42aadae0-4a8d-41b3-b24c-6a2301625c47" />
+<img width="1902" height="880" alt="eS" src="https://github.com/user-attachments/assets/4fb975ca-27ea-4d91-ba0d-adb9df199cc2" />
+<img width="1891" height="880" alt="e8" src="https://github.com/user-attachments/assets/a1ebf14b-5b4b-49bf-ac8b-ecbf6b5478ac" />
 
 ---
 
@@ -164,14 +171,7 @@ dotnet run                # start the dev server
 ```
 
 ---
-<img width="1918" height="885" alt="e1" src="https://github.com/user-attachments/assets/dbe20c3f-81f7-4784-a6d6-c954bca489a1" />
-<img width="1917" height="875" alt="e2" src="https://github.com/user-attachments/assets/d7d1823e-3cb8-4ced-bab0-7fb75ab17c19" />
-<img width="1901" height="882" alt="e3" src="https://github.com/user-attachments/assets/5a325d9d-35c8-4917-a87e-453a65475a77" />
-<img width="1920" height="882" alt="e4" src="https://github.com/user-attachments/assets/6386177d-96bc-46d6-bcc3-c7f08e271da9" />
-<img width="1900" height="881" alt="e5" src="https://github.com/user-attachments/assets/2f8d2301-b324-4ed0-83bd-0b7d2cf49dd8" />
-<img width="1905" height="885" alt="e6" src="https://github.com/user-attachments/assets/42aadae0-4a8d-41b3-b24c-6a2301625c47" />
-<img width="1902" height="880" alt="eS" src="https://github.com/user-attachments/assets/4fb975ca-27ea-4d91-ba0d-adb9df199cc2" />
-<img width="1891" height="880" alt="e8" src="https://github.com/user-attachments/assets/a1ebf14b-5b4b-49bf-ac8b-ecbf6b5478ac" />
+
 
 
 
